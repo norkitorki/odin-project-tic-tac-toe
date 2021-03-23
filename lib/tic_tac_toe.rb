@@ -1,6 +1,6 @@
-require './game_board'
-require './player'
-require './scoreboard'
+require_relative './game_board'
+require_relative './player'
+require_relative './scoreboard'
 
 class TicTacToe
   def initialize(board, player1, player2)
