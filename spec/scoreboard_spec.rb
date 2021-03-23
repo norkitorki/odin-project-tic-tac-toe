@@ -1,5 +1,5 @@
-require '../lib/scoreboard'
-require '../lib/scoreboard_template_validator'
+require_relative '../lib/scoreboard'
+require_relative './scoreboard_template_validator'
 
 describe Scoreboard do
   include ScoreboardTemplateValidator
@@ -19,13 +19,7 @@ describe Scoreboard do
 
   it 'should print the scoreboard' do
     expect(scoreboard.to_s).to eq(
-      <<~SCOREBOARD
-        Standings
-
-        John | Jane
-        –––––––––––
-        10   | 10  
-      SCOREBOARD
+      "Standings\n\nJohn | Jane\n–––––––––––\n10   | 10  \n"
     )
   end
 

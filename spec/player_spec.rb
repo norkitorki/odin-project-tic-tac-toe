@@ -1,5 +1,5 @@
-require '../lib/player'
-require '../lib/player_template_validator.rb'
+require_relative '../lib/player'
+require_relative './player_template_validator.rb'
 
 describe Player do
   include PlayerTemplateValidator

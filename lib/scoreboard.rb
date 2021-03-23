@@ -1,4 +1,4 @@
-require './player'
+require_relative './player'
 
 class Scoreboard
   attr_reader :title, :players, :default_score

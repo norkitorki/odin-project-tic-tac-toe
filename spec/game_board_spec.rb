@@ -1,5 +1,5 @@
-require '../lib/game_board'
-require '../lib/game_board_template_validator'
+require_relative '../lib/game_board'
+require_relative './game_board_template_validator'
 
 describe GameBoard do
   include GameBoardTemplateValidator
