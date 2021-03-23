@@ -3,12 +3,13 @@ require_relative './player'
 require_relative './scoreboard'
 
 class TicTacToe
+  attr_reader :board, :player1, :player2, :scoreboard, :game_number
+
   def initialize(board, player1, player2)
     @board = board.new(ranks: 3, files: 3)
-    @player1       = player1
+    @active_player = @player1 = player1
     @player2       = player2
     @game_number   = 0
-    @active_player = [player1, player2].sample
     @scoreboard    = Scoreboard.new(
       title: 'Standings', players: [player1.name, player2.name]
     )
@@ -16,7 +17,7 @@ class TicTacToe
 
   def to_s
     "\n#{active_player.name}'s turn.\n\n#{board}\nAvailable fields: \
-    #{board.empty_fields.join(', ')}\n\n"
+      #{board.empty_fields.join(', ')}\n\n"
   end
 
   def play
@@ -34,7 +35,6 @@ class TicTacToe
 
   private
 
-  attr_reader :board, :player1, :player2, :scoreboard, :game_number
   attr_accessor :active_player
 
   def switch_players
@@ -95,7 +95,7 @@ class TicTacToe
   end
 
   def play_again
-    print "Do you want to continue the game? y/n ? "
+    print 'Do you want to continue the game? y/n ? '
     input = player_input until %w[Y N].include?(input)
     input == 'Y' ? play : false
   end
