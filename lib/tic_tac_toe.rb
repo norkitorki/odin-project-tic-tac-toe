@@ -3,7 +3,7 @@ require_relative './player'
 require_relative './scoreboard'
 
 class TicTacToe
-  attr_reader :board, :player1, :player2, :scoreboard, :game_number
+  attr_reader :player1, :player2, :game_number
 
   def initialize(board, player1, player2)
     @board = board.new(ranks: 3, files: 3)
@@ -16,8 +16,8 @@ class TicTacToe
   end
 
   def to_s
-    "\n#{active_player.name}'s turn.\n\n#{board}\nAvailable fields: \
-      #{board.empty_fields.join(', ')}\n\n"
+    "\n#{active_player.name}'s turn.\n\n#{board}\nAvailable fields:\
+    #{board.empty_fields.join(', ')}\n\n"
   end
 
   def play
@@ -25,16 +25,17 @@ class TicTacToe
     loop do
       puts self
       place_piece(find_empty_field(player_input))
-      break post_game if player_won? || draw?
+      break post_game_operations if player_won? || draw?
 
       switch_players
     end
     switch_players if active_player == beginning_player
-    play_again
+    post_game_continuation
   end
 
   private
 
+  attr_reader :scoreboard, :board
   attr_accessor :active_player
 
   def switch_players
@@ -46,9 +47,9 @@ class TicTacToe
     gets.chomp.strip.upcase
   end
 
-  def find_empty_field(position)
-    position = player_input until board.empty_fields.include?(position.to_sym)
-    position
+  def find_empty_field(input)
+    input = player_input until board.empty_fields.include?(input.to_sym)
+    input
   end
 
   def place_piece(position)
@@ -56,12 +57,12 @@ class TicTacToe
   end
 
   def player_won?
-    (linear_match?(board.columns) || linear_match?(board.rows) ||
-      diagonal_match?(board.columns) || diagonal_match?(board.columns.reverse))
+    linear_match?(board.columns) || linear_match?(board.rows) ||
+      diagonal_match?(board.columns) || diagonal_match?(board.columns.reverse)
   end
 
   def draw?
-    !player_won? && board.full?
+    board.full?
   end
 
   def linear_match?(fields)
@@ -88,13 +89,13 @@ class TicTacToe
     puts game_results
   end
 
-  def post_game
+  def post_game_operations
     @game_number += 1
     player_won? ? handle_win : handle_draw
     board.clear
   end
 
-  def play_again
+  def post_game_continuation
     print 'Do you want to continue the game? y/n ? '
     input = player_input until %w[Y N].include?(input)
     input == 'Y' ? play : false
