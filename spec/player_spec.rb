@@ -6,7 +6,7 @@ describe Player do
 
   let(:player) { Player.new('John', 'X') }
 
-  it 'should play the player template role' do
+  it 'should play the player role' do
     expect(name_defined?(player)).to eq(true)
     expect(piece_defined?(player)).to eq(true)
   end

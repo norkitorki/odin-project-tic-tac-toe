@@ -12,7 +12,7 @@ describe Scoreboard do
     )
   }
 
-  it 'should play the scoreboard template role' do
+  it 'should play the scoreboard role' do
     expect(to_s_defined?(scoreboard)).to eq(true)
     expect(update_score_defined?(scoreboard)).to eq(true)
   end

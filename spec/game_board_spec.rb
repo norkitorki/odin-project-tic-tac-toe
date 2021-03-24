@@ -6,7 +6,7 @@ describe GameBoard do
 
   let(:game_board) { GameBoard.new(ranks: 3, files: 3) }
 
-  it 'should play the board template role' do
+  it 'should play the game board role' do
     expect(files_defined?(game_board)).to eq(true)
     expect(to_s_defined?(game_board)).to eq(true)
     expect(field_defined?(game_board)).to eq(true)
