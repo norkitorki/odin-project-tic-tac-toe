@@ -65,6 +65,14 @@ class GameBoard
     fields
   end
 
+  def build_board
+    @fields.values.transpose.reverse.map.with_index do |row, i|
+      rank = ranks - i
+      rank_padding = ' ' * (ranks.to_s.length - rank.to_s.length)
+      row.unshift("#{rank}#{rank_padding}").join(' | ')
+    end
+  end
+
   def files_row
     padding = ' ' * (ranks.to_s.length + 3)
     "#{padding}#{@fields.keys.join(' | ')}"
@@ -74,14 +82,6 @@ class GameBoard
     padding   = ' ' * (ranks.to_s.length + 1)
     seperator = '–' * (files_row.length - ranks.to_s.length + 1)
     " |\n#{padding}#{seperator}\n"
-  end
-
-  def build_board
-    @fields.values.transpose.reverse.map.with_index do |row, i|
-      rank = ranks - i
-      rank_padding = ' ' * (ranks.to_s.length - rank.to_s.length)
-      row.unshift("#{rank}#{rank_padding}").join(' | ')
-    end
   end
 
   def piece_valid?(piece)
