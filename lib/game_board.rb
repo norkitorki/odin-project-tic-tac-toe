@@ -27,16 +27,16 @@ class GameBoard
 
   def fields
     @fields.keys.map do |file|
-      @fields.values.map.with_index { |_, rank| "#{file}#{rank + 1}".to_sym }
+      (1..ranks).map { |rank| "#{file}#{rank}".to_sym }
     end.flatten
   end
 
   def columns
-    fields.map { |position| field(position) }.each_slice(files).to_a
+    fields.map { |position| field(position) }.each_slice(ranks).to_a
   end
 
   def rows
-    fields.map { |position| field(position) }.each_slice(ranks).to_a.transpose
+    columns.transpose
   end
 
   def empty_fields
