@@ -8,7 +8,7 @@ class GameBoard
   end
 
   def to_s
-    build_board.push(files_row).join(row_seperator) << "\n"
+    top_line << board.join(row_seperator) << bottom_line << board_files << "\n"
   end
 
   def field(position = :A1, piece = nil)
@@ -57,31 +57,42 @@ class GameBoard
     fields = {}
     file   = :A
     files.times do
-      fields[file] = []
-      ranks.times { fields[file] << ' ' * file.length }
+      fields[file] = (1..ranks).map { ' ' }
       file = file.next
     end
 
     fields
   end
 
-  def build_board
-    @fields.values.transpose.reverse.map.with_index do |row, i|
-      rank = ranks - i
-      rank_padding = ' ' * (ranks.to_s.length - rank.to_s.length)
-      row.unshift("#{rank}#{rank_padding}").join(' | ')
+  def board
+    ranks = board_ranks
+    rows  = @fields.values.transpose.reverse
+
+    rows.map.with_index do |row, i|
+      ranks[i] << '┃ ' << row.join(' │ ') << " ┃\n"
     end
   end
 
-  def files_row
-    padding = ' ' * (ranks.to_s.length + 3)
-    "#{padding}#{@fields.keys.join(' | ')}"
+  def board_ranks
+    ranks.downto(1).to_a.map do |rank|
+      padding = ' ' * (ranks.to_s.length - rank.to_s.length + 1)
+      rank.to_s << padding
+    end
+  end
+
+  def board_files
+    padding = ' ' * (row_padding + 2)
+    padding << @fields.keys.join('   ')
+  end
+
+  def row_padding
+    ranks.to_s.length + 1
   end
 
   def row_seperator
-    padding   = ' ' * (ranks.to_s.length + 1)
-    seperator = '–' * (files_row.length - ranks.to_s.length + 1)
-    " |\n#{padding}#{seperator}\n"
+    padding   = ' ' * row_padding
+    seperator = '┠' << Array.new(files, '───').join('┼') << "┨\n"
+    padding << seperator
   end
 
   def piece_valid?(piece)
@@ -94,5 +105,13 @@ class GameBoard
 
   def piece_padding(file, piece)
     file.length > 1 ? piece << ' ' * (file.length - 1) : piece
+  end
+
+  def top_line
+    ' ' * row_padding << '┏' << Array.new(files, '━━━').join('┯') << "┓\n"
+  end
+
+  def bottom_line
+    ' ' * row_padding << '┗' << Array.new(files, '━━━').join('┷') << "┛\n"
   end
 end
