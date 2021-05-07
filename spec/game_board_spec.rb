@@ -21,13 +21,14 @@ describe GameBoard do
   it 'should print the board' do
     expect(game_board.to_s).to eq(
       <<~BOARD
-        3 |   |   |   |
-          –––––––––––––
-        2 |   |   |   |
-          –––––––––––––
-        1 |   |   |   |
-          –––––––––––––
-            A | B | C
+          ┏━━━┯━━━┯━━━┓
+        3 ┃   │   │   ┃
+          ┠───┼───┼───┨
+        2 ┃   │   │   ┃
+          ┠───┼───┼───┨
+        1 ┃   │   │   ┃
+          ┗━━━┷━━━┷━━━┛
+            A   B   C
       BOARD
     )
   end
