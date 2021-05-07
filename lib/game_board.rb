@@ -69,7 +69,8 @@ class GameBoard
     rows  = @fields.values.transpose.reverse
 
     rows.map.with_index do |row, i|
-      ranks[i] << '┃ ' << row.join(' │ ') << " ┃\n"
+      offset = board_offset[ranks[i].length..]
+      offset << ranks[i] << '┃ ' << row.join(' │ ') << " ┃\n"
     end
   end
 
@@ -81,18 +82,17 @@ class GameBoard
   end
 
   def board_files
-    padding = ' ' * (row_padding + 2)
+    padding = board_offset << '  '
     padding << @fields.keys.join('   ')
   end
 
-  def row_padding
-    ranks.to_s.length + 1
+  def board_offset
+    ' ' * (ranks.to_s.length + 1)
   end
 
   def row_seperator
-    padding   = ' ' * row_padding
     seperator = '┠' << Array.new(files, '───').join('┼') << "┨\n"
-    padding << seperator
+    board_offset << seperator
   end
 
   def piece_valid?(piece)
@@ -108,10 +108,10 @@ class GameBoard
   end
 
   def top_line
-    ' ' * row_padding << '┏' << Array.new(files, '━━━').join('┯') << "┓\n"
+    board_offset << '┏' << Array.new(files, '━━━').join('┯') << "┓\n"
   end
 
   def bottom_line
-    ' ' * row_padding << '┗' << Array.new(files, '━━━').join('┷') << "┛\n"
+    board_offset << '┗' << Array.new(files, '━━━').join('┷') << "┛\n"
   end
 end
